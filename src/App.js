@@ -3,11 +3,6 @@ import React from 'react';
 import {DefaultButton} from 'office-ui-fabric-react/lib/Button';
 import XLSX from 'xlsx';
 
-const SelectItemsID = [
-    3,
-    8,
-    1,
-]
 
 class App extends React.Component {
     constructor(props) {
@@ -79,29 +74,44 @@ class App extends React.Component {
 
     SelectData = (data) => {
         let arr = [];
-        let NewArr = []
         data.map((value, index) => {
             if (index > 1 && value.length > 1) {
                 arr.push(value)
             }
         })
-        console.log(arr)
-        SelectItemsID.map(vl => NewArr.push(arr[vl - 1]))
-        this.setState({arrSelect: NewArr})
+        this.setState({arrSelect: arr})
+    }
+
+    Label(id) {
+        let test = this.state.arrSelect[id - 1]
+        if (this.state.arrSelect.length !== 0) {
+            return test[1]
+        }
+    }
+
+    Description(id) {
+        let test = this.state.arrSelect[id - 1]
+        if (this.state.arrSelect.length !== 0) {
+            return test[2]
+        }
     }
 
     render() {
         return (
             <div>
-                <div style={{marginBottom:20, display:"flex", }}>
-                    {this.state.arrSelect.map((value, index) => {
-                        return (
-                            <div style={{margin: 5,background:"blue", padding:10}}>
-                                <p>Speical Offer: {value[1]}</p>
-                                <p>{value[2]}</p>
-                            </div>
-                        )
-                    })}
+                <div style={{marginBottom: 20, display: "flex",}}>
+                    <div style={{margin: 5, background: "blue", padding: 10}}>
+                        <p>Speical Offer: {this.Label(3)}</p>
+                        <p>{this.Description(3)}</p>
+                    </div>
+                    <div style={{margin: 5, background: "blue", padding: 10}}>
+                        <p>Speical Offer: {this.Label(8)}</p>
+                        <p>{this.Description(8)}</p>
+                    </div>
+                    <div style={{margin: 5, background: "blue", padding: 10}}>
+                        <p>Speical Offer: {this.Label(1)}</p>
+                        <p>{this.Description(1)}</p>
+                    </div>
                 </div>
                 <div>
                     {this.state.Label.map((value, index) => {
