@@ -7,7 +7,6 @@ import {
     DetailsListLayoutMode,
 } from 'office-ui-fabric-react/lib/DetailsList';
 import {Modal} from 'office-ui-fabric-react/lib/Modal';
-import {Icon} from 'office-ui-fabric-react/lib/Icon';
 import XLSX from 'xlsx';
 
 //setting
@@ -84,14 +83,9 @@ class App extends React.Component {
             }
             if (index > startRow) {
                 if (typeof value[0] === "number") {
-                    NewArr = [...NewArr, {
-                        key: index,
-                        ID: value[0],
-                        Label: value[1],
-                        Description: value[2],
-                        Link: value[3],
-                        Icon: value[4]
-                    }]
+                    let obj = {};
+                    value.map((value, index) => obj = {...obj, [data[0][index]]: value});
+                    NewArr = [...NewArr, obj]
                 }
             }
         });
@@ -109,17 +103,14 @@ class App extends React.Component {
     };
 
     Table = (data) => {
-        let NewArr = []
-        data.forEach((value, index) => {
-            NewArr = [...NewArr, {
-                key: index,
-                ID: <div dangerouslySetInnerHTML={{__html: value.ID}}/>,
-                Label: <div dangerouslySetInnerHTML={{__html: value.Label}}/>,
-                Description: <div dangerouslySetInnerHTML={{__html: value.Description}}/>,
-                Link: <div dangerouslySetInnerHTML={{__html: value.Link}}/>,
-                Icon: <div dangerouslySetInnerHTML={{__html: value.Icon}}/>
-            }]
-        })
+        let NewArr = [];
+        let obj = {};
+        data.forEach((value) => {
+            this.state.Header.forEach((v) => {
+                obj = {...obj, [v]: <div dangerouslySetInnerHTML={{__html: [value[v]]}}/>}
+            });
+            NewArr = [...NewArr, obj]
+        });
         return NewArr
     }
 
